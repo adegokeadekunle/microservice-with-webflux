@@ -15,6 +15,7 @@ import java.util.Optional;
 public class OrderServiceImpl  implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderStatusPublisher orderStatusPublisher;
 
     @Override
     public PurchaseOrder createOrder(OrderRequestDto orderRequestDto) {
@@ -29,6 +30,7 @@ public class OrderServiceImpl  implements OrderService {
                 .build();
         orderRepository.save(order);
         //produce kafka event with status ORDER_CREATED
+        orderStatusPublisher.publishOrderEvent(orderRequestDto,OrderStatus.ORDER_CREATED);
         return order;
     }
 }
