@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
@@ -20,4 +22,11 @@ public class OrderController {
 
         return  orderService.createOrder(orderRequestDto);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all-orders")
+    public List<PurchaseOrder> getAllOrders() {
+        return orderService.getAllOrders();
+
+        }
 }

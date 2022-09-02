@@ -7,8 +7,10 @@ import com.adekunle.order.repository.OrderRepository;
 import com.adekunle.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,7 @@ public class OrderServiceImpl  implements OrderService {
     private final OrderStatusPublisher orderStatusPublisher;
 
     @Override
+    @Transactional
     public PurchaseOrder createOrder(OrderRequestDto orderRequestDto) {
 
         boolean orderExist = orderRepository.existsById(orderRequestDto.getOrderId());
@@ -32,5 +35,10 @@ public class OrderServiceImpl  implements OrderService {
         //produce kafka event with status ORDER_CREATED
         orderStatusPublisher.publishOrderEvent(orderRequestDto,OrderStatus.ORDER_CREATED);
         return order;
+    }
+
+    @Override
+    public List<PurchaseOrder> getAllOrders() {
+        return orderRepository.findAll();
     }
 }

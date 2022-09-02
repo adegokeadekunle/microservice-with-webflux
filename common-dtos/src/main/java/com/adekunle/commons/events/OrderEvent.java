@@ -3,6 +3,7 @@ package com.adekunle.commons.events;
 import com.adekunle.commons.dtos.Requests.OrderRequestDto;
 import com.adekunle.commons.enums.OrderStatus;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class OrderEvent implements Event{
 
     private UUID eventId= UUID.randomUUID();
