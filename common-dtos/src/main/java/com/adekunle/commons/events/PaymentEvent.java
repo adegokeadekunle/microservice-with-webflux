@@ -5,11 +5,13 @@ import com.adekunle.commons.dtos.Requests.PaymentRequestDto;
 import com.adekunle.commons.enums.OrderStatus;
 import com.adekunle.commons.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentEvent implements Event{

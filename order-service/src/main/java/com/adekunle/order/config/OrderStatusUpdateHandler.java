@@ -1,5 +1,6 @@
 package com.adekunle.order.config;
 
+import com.adekunle.commons.dtos.Requests.OrderRequestDto;
 import com.adekunle.commons.enums.OrderStatus;
 import com.adekunle.commons.enums.PaymentStatus;
 import com.adekunle.order.entity.PurchaseOrder;
@@ -28,6 +29,16 @@ public class OrderStatusUpdateHandler {
         boolean isOrderCompleted = PaymentStatus.PAYMENT_SUCCESSFUL.equals(purchaseOrder.getPaymentStatus());
         OrderStatus orderStatus = isOrderCompleted ? OrderStatus.ORDER_COMPLETED: OrderStatus.ORDER_CANCELLED;
         purchaseOrder.setOrderStatus(orderStatus);
-       // if (isOrderCompleted)
+        if (isOrderCompleted){
+            orderStatusPublisher.publishOrderEvent(convertEntityToDto(purchaseOrder),orderStatus);
+        }
+    }
+    public OrderRequestDto convertEntityToDto(PurchaseOrder purchaseOrder){
+        return OrderRequestDto.builder()
+                .orderId(purchaseOrder.getId())
+                .amount(purchaseOrder.getPrice())
+                .productId(purchaseOrder.getProductId())
+                .userId(purchaseOrder.getUserId())
+                .build();
     }
 }
